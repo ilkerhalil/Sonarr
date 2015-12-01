@@ -156,7 +156,7 @@ namespace NzbDrone.Core.Download.Clients.Sabnzbd
         {
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                throw new DownloadClientException("Unable to connect to SABnzbd, please check your settings", response.ErrorException);
+                throw new DownloadClientUnavailableException("Unable to connect to SABnzbd, please check your settings", response.ErrorException);
             }
 
             SabnzbdJsonError result;
