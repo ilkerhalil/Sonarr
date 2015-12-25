@@ -2,8 +2,8 @@
 using FizzWare.NBuilder;
 using FluentAssertions;
 using NUnit.Framework;
-using NzbDrone.Core.Metadata;
-using NzbDrone.Core.Metadata.Consumers.Roksbox;
+using NzbDrone.Core.Extras.Metadata;
+using NzbDrone.Core.Extras.Metadata.Consumers.Roksbox;
 using NzbDrone.Core.Test.Framework;
 using NzbDrone.Core.Tv;
 using NzbDrone.Test.Common;
@@ -38,7 +38,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Roksbox
         {
             var path = Path.Combine(_series.Path, folder, folder + ".jpg");
 
-            Subject.FindMetadataFile(_series, path).Type.Should().Be(MetadataType.SeasonImage);
+            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(MetadataType.SeasonImage);
         }
 
         [TestCase(".xml", MetadataType.EpisodeMetadata)]
@@ -47,7 +47,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Roksbox
         {
             var path = Path.Combine(_series.Path, "the.series.s01e01.episode" + extension);
 
-            Subject.FindMetadataFile(_series, path).Type.Should().Be(type);
+            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(type);
         }
 
         [TestCase(".xml")]
@@ -72,7 +72,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Roksbox
         {
             var path = Path.Combine(_series.Path, new DirectoryInfo(_series.Path).Name + ".jpg");
 
-            Subject.FindMetadataFile(_series, path).Type.Should().Be(MetadataType.SeriesImage);
+            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(MetadataType.SeriesImage);
         }
     }
 }

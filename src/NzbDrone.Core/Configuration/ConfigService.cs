@@ -201,6 +201,13 @@ namespace NzbDrone.Core.Configuration
             set { SetValue("EnableMediaInfo", value); }
         }
 
+        public string ExtraFileExtensions
+        {
+            get { return GetValue("ExtraFileExtensions", ""); }
+
+            set { SetValue("ExtraFileExtensions", value); }
+        }
+
         public bool SetPermissionsLinux
         {
             get { return GetValueBoolean("SetPermissionsLinux", false); }
