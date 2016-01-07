@@ -49,7 +49,7 @@ namespace NzbDrone.Core.Extras
 
                 if (localEpisode == null)
                 {
-                    _logger.Debug("Unable to parse subtitle file: {0}", possibleExtraFile);
+                    _logger.Debug("Unable to parse extra file: {0}", possibleExtraFile);
                     continue;
                 }
 
@@ -61,7 +61,7 @@ namespace NzbDrone.Core.Extras
 
                 if (localEpisode.Episodes.DistinctBy(e => e.EpisodeFileId).Count() > 1)
                 {
-                    _logger.Debug("Subtitle file: {0} does not match existing files.", possibleExtraFile);
+                    _logger.Debug("Extra file: {0} does not match existing files.", possibleExtraFile);
                     continue;
                 }
 
