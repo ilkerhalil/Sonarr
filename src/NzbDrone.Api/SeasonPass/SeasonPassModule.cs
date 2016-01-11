@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Nancy;
-using NzbDrone.Api.Extensions;
-using NzbDrone.Api.Mapping;
+﻿using Nancy;
+using Sonarr.Http.Extensions;
 using NzbDrone.Core.Tv;
 
 namespace NzbDrone.Api.SeasonPass

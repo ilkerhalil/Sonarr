@@ -4,10 +4,11 @@ using NzbDrone.Core.Indexers;
 using NzbDrone.Core.Parser.Model;
 using Omu.ValueInjecter;
 using System.Linq;
+using Sonarr.Http;
 
 namespace NzbDrone.Api.Indexers
 {
-    public abstract class ReleaseModuleBase : NzbDroneRestModule<ReleaseResource>
+    public abstract class ReleaseModuleBase : SonarrRestModule<ReleaseResource>
     {
         protected virtual List<ReleaseResource> MapDecisions(IEnumerable<DownloadDecision> decisions)
         {

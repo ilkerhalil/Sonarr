@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NzbDrone.Api.REST;
+﻿using System.Collections.Generic;
+using Sonarr.Http.REST;
 using NzbDrone.Core.RootFolders;
 
 namespace NzbDrone.Api.RootFolders

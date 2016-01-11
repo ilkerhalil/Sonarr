@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NzbDrone.Api.REST;
+using Sonarr.Http.REST;
 using NzbDrone.Core.Indexers;
 
 namespace NzbDrone.Api.Profiles.Delay

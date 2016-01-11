@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NzbDrone.Api.Mapping;
 using NzbDrone.Core.Parser;
 using NzbDrone.Core.Profiles;
 using NzbDrone.Core.Qualities;
+using Sonarr.Http;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api.Profiles
 {
-    public class ProfileSchemaModule : NzbDroneRestModule<ProfileResource>
+    public class ProfileSchemaModule : SonarrRestModule<ProfileResource>
     {
         private readonly IQualityDefinitionService _qualityDefinitionService;
 

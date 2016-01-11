@@ -10,7 +10,6 @@ using NzbDrone.Api.Episodes;
 using NzbDrone.Api.History;
 using NzbDrone.Api.Indexers;
 using NzbDrone.Api.Logs;
-using NzbDrone.Api.Mapping;
 using NzbDrone.Api.Profiles;
 using NzbDrone.Api.RootFolders;
 using NzbDrone.Api.Series;
@@ -26,6 +25,7 @@ using NzbDrone.Core.Tv;
 using NzbDrone.Core.Update.Commands;
 using NzbDrone.Test.Common;
 using System.Linq;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api.Test.MappingTests
 {

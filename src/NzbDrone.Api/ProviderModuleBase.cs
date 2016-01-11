@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
 using Nancy;
-using NzbDrone.Api.ClientSchema;
-using NzbDrone.Api.Extensions;
-using NzbDrone.Api.Mapping;
+using Sonarr.Http.Extensions;
 using NzbDrone.Common.Reflection;
 using NzbDrone.Core.ThingiProvider;
 using NzbDrone.Core.Validation;
 using Omu.ValueInjecter;
 using Newtonsoft.Json;
+using Sonarr.Http;
+using Sonarr.Http.ClientSchema;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api
 {
-    public abstract class ProviderModuleBase<TProviderResource, TProvider, TProviderDefinition> : NzbDroneRestModule<TProviderResource>
+    public abstract class ProviderModuleBase<TProviderResource, TProvider, TProviderDefinition> : SonarrRestModule<TProviderResource>
         where TProviderDefinition : ProviderDefinition, new()
         where TProvider : IProvider
         where TProviderResource : ProviderResource, new()

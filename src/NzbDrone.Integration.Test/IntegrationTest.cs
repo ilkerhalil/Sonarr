@@ -18,6 +18,7 @@ using NzbDrone.SignalR;
 using NzbDrone.Test.Common;
 using NzbDrone.Test.Common.Categories;
 using RestSharp;
+using Sonarr.Http.ClientSchema;
 
 namespace NzbDrone.Integration.Test
 {
@@ -79,7 +80,7 @@ namespace NzbDrone.Integration.Test
                 Implementation = "Wombles",
                 Name = "Wombles",
                 Protocol = Core.Indexers.DownloadProtocol.Usenet,
-                Fields = new List<Api.ClientSchema.Field>()
+                Fields = new List<Field>()
             });
         }
 

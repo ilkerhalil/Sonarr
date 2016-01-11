@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using FluentValidation;
 using NzbDrone.Core.RootFolders;
-using NzbDrone.Api.Mapping;
 using NzbDrone.Core.Validation.Paths;
 using NzbDrone.SignalR;
+using Sonarr.Http;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api.RootFolders
 {
-    public class RootFolderModule : NzbDroneRestModuleWithSignalR<RootFolderResource, RootFolder>
+    public class RootFolderModule : SonarrRestModuleWithSignalR<RootFolderResource, RootFolder>
     {
         private readonly IRootFolderService _rootFolderService;
 

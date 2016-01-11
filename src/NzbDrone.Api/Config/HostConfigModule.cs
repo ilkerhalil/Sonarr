@@ -9,10 +9,11 @@ using NzbDrone.Core.Update;
 using NzbDrone.Core.Validation;
 using NzbDrone.Core.Validation.Paths;
 using Omu.ValueInjecter;
+using Sonarr.Http;
 
 namespace NzbDrone.Api.Config
 {
-    public class HostConfigModule : NzbDroneRestModule<HostConfigResource>
+    public class HostConfigModule : SonarrRestModule<HostConfigResource>
     {
         private readonly IConfigFileProvider _configFileProvider;
         private readonly IUserService _userService;

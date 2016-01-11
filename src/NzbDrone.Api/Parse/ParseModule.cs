@@ -1,9 +1,10 @@
 ﻿using NzbDrone.Core.Parser;
 using NzbDrone.Core.Parser.Model;
+using Sonarr.Http;
 
 namespace NzbDrone.Api.Parse
 {
-    public class ParseModule : NzbDroneRestModule<ParseResource>
+    public class ParseModule : SonarrRestModule<ParseResource>
     {
         private readonly IParsingService _parsingService;
 

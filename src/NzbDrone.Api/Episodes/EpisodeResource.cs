@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using NzbDrone.Api.EpisodeFiles;
-using NzbDrone.Api.REST;
+using Sonarr.Http.REST;
 using NzbDrone.Api.Series;
 
 namespace NzbDrone.Api.Episodes

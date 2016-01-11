@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using NzbDrone.Api.REST;
+using Sonarr.Http.REST;
 using NzbDrone.Core.Messaging.Commands;
 
 namespace NzbDrone.Api.Commands

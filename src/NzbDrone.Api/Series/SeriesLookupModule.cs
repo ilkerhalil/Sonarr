@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using Nancy;
-using NzbDrone.Api.Extensions;
+using Sonarr.Http.Extensions;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MetadataSource;
 using System.Linq;
-using NzbDrone.Api.Mapping;
+using Sonarr.Http;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api.Series
 {
-    public class SeriesLookupModule : NzbDroneRestModule<SeriesResource>
+    public class SeriesLookupModule : SonarrRestModule<SeriesResource>
     {
         private readonly ISearchForNewSeries _searchProxy;
 

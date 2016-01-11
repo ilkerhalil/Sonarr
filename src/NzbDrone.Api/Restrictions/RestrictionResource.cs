@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NzbDrone.Api.REST;
+﻿using System.Collections.Generic;
+using Sonarr.Http.REST;
 
 namespace NzbDrone.Api.Restrictions
 {

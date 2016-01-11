@@ -1,5 +1,5 @@
 ﻿using System;
-using NzbDrone.Api.REST;
+using Sonarr.Http.REST;
 using NzbDrone.Core.HealthCheck;
 
 namespace NzbDrone.Api.Health

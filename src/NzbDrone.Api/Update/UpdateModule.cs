@@ -2,11 +2,12 @@
 using System.Linq;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Core.Update;
-using NzbDrone.Api.Mapping;
+using Sonarr.Http;
+using Sonarr.Http.Mapping;
 
 namespace NzbDrone.Api.Update
 {
-    public class UpdateModule : NzbDroneRestModule<UpdateResource>
+    public class UpdateModule : SonarrRestModule<UpdateResource>
     {
         private readonly IRecentUpdateProvider _recentUpdateProvider;
 

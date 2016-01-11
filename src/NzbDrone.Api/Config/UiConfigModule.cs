@@ -2,10 +2,11 @@
 using System.Reflection;
 using NzbDrone.Core.Configuration;
 using Omu.ValueInjecter;
+using Sonarr.Http;
 
 namespace NzbDrone.Api.Config
 {
-    public class UiConfigModule : NzbDroneRestModule<UiConfigResource>
+    public class UiConfigModule : SonarrRestModule<UiConfigResource>
     {
         private readonly IConfigService _configService;
 
