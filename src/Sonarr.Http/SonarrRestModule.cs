@@ -12,13 +12,29 @@ namespace Sonarr.Http
     {
         protected string Resource { get; private set; }
 
+
+        private static string BaseUrl()
+        {
+            var isV3 = typeof(TResource).Namespace.Contains(".V3.");
+            if (isV3)
+            {
+                return "/api/v3/";
+            }
+            return "/api/";
+        }
+
+        private static string ResourceName()
+        {
+            return new TResource().ResourceName.Trim('/').ToLower();
+        }
+
         protected SonarrRestModule()
-            : this(new TResource().ResourceName)
+            : this(ResourceName())
         {
         }
 
         protected SonarrRestModule(string resource)
-            : base("/api/v3/" + resource.Trim('/'))
+            : base(BaseUrl() + resource.Trim('/').ToLower())
         {
             Resource = resource;
             PostValidator.RuleFor(r => r.Id).IsZero();
@@ -53,14 +69,14 @@ namespace Sonarr.Http
             pagingSpec = function(pagingSpec);
 
             return new PagingResource<TResource>
-                       {
-                           Page = pagingSpec.Page,
-                           PageSize = pagingSpec.PageSize,
-                           SortDirection = pagingSpec.SortDirection,
-                           SortKey = pagingSpec.SortKey,
-                           TotalRecords = pagingSpec.TotalRecords,
-                           Records = ToListResource(pagingSpec.Records)
-                       };
+            {
+                Page = pagingSpec.Page,
+                PageSize = pagingSpec.PageSize,
+                SortDirection = pagingSpec.SortDirection,
+                SortKey = pagingSpec.SortKey,
+                TotalRecords = pagingSpec.TotalRecords,
+                Records = ToListResource(pagingSpec.Records)
+            };
         }
     }
 }

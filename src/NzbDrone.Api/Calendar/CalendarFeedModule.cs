@@ -8,12 +8,12 @@ using Nancy.Responses;
 
 namespace NzbDrone.Api.Calendar
 {
-    public class CalendarFeedModule : NzbDroneFeedModule
+    public class CalendarFeedModule : NzbDroneApiModule
     {
         private readonly IEpisodeService _episodeService;
 
         public CalendarFeedModule(IEpisodeService episodeService)
-            : base("calendar")
+            : base("feed/calendar")
         {
             _episodeService = episodeService;
 
