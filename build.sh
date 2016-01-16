@@ -105,9 +105,13 @@ RunGulp()
     CheckExitCode npm install
     echo "##teamcity[progressFinish 'npm install']"
 
-    echo "##teamcity[progressStart 'Running Gulp']"
+    echo "##teamcity[progressStart 'Running gulp']"
     CheckExitCode gulp build
-    echo "##teamcity[progressFinish 'Running Gulp']"
+    echo "##teamcity[progressFinish 'Running gulp']"
+
+    echo "##teamcity[progressStart 'Running gulp (phantom)']"
+    CheckExitCode gulp build --phantom
+    echo "##teamcity[progressFinish 'Running gulp (phantom)']"
 }
 
 CreateMdbs()
