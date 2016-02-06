@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using FluentValidation.Results;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Files;
 using NzbDrone.Core.Extras.Metadata.Files;
 using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.ThingiProvider;
@@ -45,7 +45,7 @@ namespace NzbDrone.Core.Extras.Metadata
             return new ValidationResult();
         }
 
-        public virtual string GetFilenameAfterMove(Series series, EpisodeFile episodeFile, ExtraFile metadataFile)
+        public virtual string GetFilenameAfterMove(Series series, EpisodeFile episodeFile, MetadataFile metadataFile)
         {
             var existingFilename = Path.Combine(series.Path, metadataFile.RelativePath);
             var extension = Path.GetExtension(existingFilename).TrimStart('.');
@@ -54,7 +54,7 @@ namespace NzbDrone.Core.Extras.Metadata
             return newFileName;
         }
 
-        public abstract ExtraFile FindMetadataFile(Series series, string path);
+        public abstract MetadataFile FindMetadataFile(Series series, string path);
 
         public abstract MetadataFileResult SeriesMetadata(Series series);
         public abstract MetadataFileResult EpisodeMetadata(Series series, EpisodeFile episodeFile);

@@ -2,37 +2,44 @@
 using System.Linq;
 using NLog;
 using NzbDrone.Common.Extensions;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Files;
+using NzbDrone.Core.Extras.Metadata.Files;
 using NzbDrone.Core.Parser;
 using NzbDrone.Core.Tv;
 
 namespace NzbDrone.Core.Extras.Metadata
 {
-    public interface IExistingMetadataService
+    public class ExistingMetadataImporter : IImportExistingExtraFiles
     {
-        List<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk);
-    }
-
-    public class ExistingMetadataService : IExistingMetadataService
-    {
+        private readonly IMetadataFileService _metadataFileService;
         private readonly IParsingService _parsingService;
         private readonly Logger _logger;
         private readonly List<IMetadata> _consumers;
 
-        public ExistingMetadataService(IEnumerable<IMetadata> consumers,
-                                       IParsingService parsingService,
-                                       Logger logger)
+        public ExistingMetadataImporter(IMetadataFileService metadataFileService,
+                                        IEnumerable<IMetadata> consumers,
+                                        IParsingService parsingService,
+                                        Logger logger)
         {
+            _metadataFileService = metadataFileService;
             _parsingService = parsingService;
             _logger = logger;
             _consumers = consumers.ToList();
         }
 
-        public List<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk)
+        public int Order
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public IEnumerable<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk)
         {
             _logger.Debug("Looking for existing metadata in {0}", series.Path);
 
-            var metadataFiles = new List<ExtraFile>();
+            var metadataFiles = new List<MetadataFile>();
 
             foreach (var possibleMetadataFile in filesOnDisk)
             {
@@ -45,8 +52,8 @@ namespace NzbDrone.Core.Extras.Metadata
                         continue;
                     }
 
-                    if (metadata.MetadataType == MetadataType.EpisodeImage ||
-                        metadata.MetadataType == MetadataType.EpisodeMetadata)
+                    if (metadata.Type == MetadataType.EpisodeImage ||
+                        metadata.Type == MetadataType.EpisodeMetadata)
                     {
                         var localEpisode = _parsingService.GetLocalEpisode(possibleMetadataFile, series);
 
@@ -75,6 +82,9 @@ namespace NzbDrone.Core.Extras.Metadata
                     metadataFiles.Add(metadata);
                 }
             }
+
+            _logger.Info("Found {0} existing metadata files", metadataFiles.Count);
+            _metadataFileService.Upsert(metadataFiles);
 
             return metadataFiles;
         }

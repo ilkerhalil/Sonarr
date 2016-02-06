@@ -38,7 +38,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Wdtv
         {
             var path = Path.Combine(_series.Path, folder, "folder.jpg");
 
-            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(MetadataType.SeasonImage);
+            Subject.FindMetadataFile(_series, path).Type.Should().Be(MetadataType.SeasonImage);
         }
 
         [TestCase(".xml", MetadataType.EpisodeMetadata)]
@@ -47,7 +47,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Wdtv
         {
             var path = Path.Combine(_series.Path, "the.series.s01e01.episode" + extension);
 
-            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(type);
+            Subject.FindMetadataFile(_series, path).Type.Should().Be(type);
         }
 
         [TestCase(".xml")]
@@ -64,7 +64,7 @@ namespace NzbDrone.Core.Test.Metadata.Consumers.Wdtv
         {
             var path = Path.Combine(_series.Path, "folder.jpg");
 
-            Subject.FindMetadataFile(_series, path).MetadataType.Should().Be(MetadataType.SeriesImage);
+            Subject.FindMetadataFile(_series, path).Type.Should().Be(MetadataType.SeriesImage);
         }
     }
 }

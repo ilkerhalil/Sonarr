@@ -2,11 +2,11 @@
 
 namespace NzbDrone.Core.Housekeeping.Housekeepers
 {
-    public class CleanupDuplicateExtraFiles : IHousekeepingTask
+    public class CleanupDuplicateMetadataFiles : IHousekeepingTask
     {
         private readonly IMainDatabase _database;
 
-        public CleanupDuplicateExtraFiles(IMainDatabase database)
+        public CleanupDuplicateMetadataFiles(IMainDatabase database)
         {
             _database = database;
         }
@@ -22,11 +22,11 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                         SELECT Id FROM ExtraFiles
-                                         WHERE MetadataType = 1
-                                         GROUP BY SeriesId, MetadataConsumer
+                                         SELECT Id FROM MetadataFiles
+                                         WHERE Type = 1
+                                         GROUP BY SeriesId, Consumer
                                          HAVING COUNT(SeriesId) > 1
                                      )");
         }
@@ -35,11 +35,11 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                         SELECT Id FROM ExtraFiles
-                                         WHERE MetadataType = 2
-                                         GROUP BY EpisodeFileId, MetadataConsumer
+                                         SELECT Id FROM MetadataFiles
+                                         WHERE Type = 2
+                                         GROUP BY EpisodeFileId, Consumer
                                          HAVING COUNT(EpisodeFileId) > 1
                                      )");
         }
@@ -48,11 +48,11 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                         SELECT Id FROM ExtraFiles
-                                         WHERE MetadataType = 5
-                                         GROUP BY EpisodeFileId, MetadataConsumer
+                                         SELECT Id FROM MetadataFiles
+                                         WHERE Type = 5
+                                         GROUP BY EpisodeFileId, Consumer
                                          HAVING COUNT(EpisodeFileId) > 1
                                      )");
         }

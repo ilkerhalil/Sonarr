@@ -3,31 +3,38 @@ using System.IO;
 using System.Linq;
 using NLog;
 using NzbDrone.Common.Extensions;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Files;
 using NzbDrone.Core.Parser;
 using NzbDrone.Core.Tv;
 
 namespace NzbDrone.Core.Extras.Subtitles
 {
-    public interface IExistingSubtitleService
+    public class ExistingSubtitleImporter : IImportExistingExtraFiles
     {
-        List<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk);
-    }
-
-    public class ExistingSubtitleService : IExistingSubtitleService
-    {
+        private readonly ISubtitleFileService _subtitleFileService;
         private readonly IParsingService _parsingService;
         private readonly Logger _logger;
 
-        public ExistingSubtitleService(IParsingService parsingService, Logger logger)
+        public ExistingSubtitleImporter(ISubtitleFileService subtitleFileService,
+                                        IParsingService parsingService,
+                                        Logger logger)
         {
+            _subtitleFileService = subtitleFileService;
             _parsingService = parsingService;
             _logger = logger;
         }
 
-        public List<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk)
+        public int Order
         {
-            var subtitleFiles = new List<ExtraFile>();
+            get
+            {
+                return 1;
+            }
+        }
+
+        public IEnumerable<ExtraFile> ProcessFiles(Series series, List<string> filesOnDisk)
+        {
+            var subtitleFiles = new List<SubtitleFile>();
 
             foreach (var possibleSubtitleFile in filesOnDisk)
             {
@@ -55,9 +62,8 @@ namespace NzbDrone.Core.Extras.Subtitles
                         continue;
                     }
 
-                    var subtitleFile = new ExtraFile
+                    var subtitleFile = new SubtitleFile
                                        {
-                                           Type = ExtraType.Subtitle,
                                            SeriesId = series.Id,
                                            SeasonNumber = localEpisode.SeasonNumber,
                                            EpisodeFileId = localEpisode.Episodes.First().EpisodeFileId,
@@ -68,6 +74,9 @@ namespace NzbDrone.Core.Extras.Subtitles
                     subtitleFiles.Add(subtitleFile);
                 }
             }
+
+            _logger.Info("Found {0} existing subtitle files", subtitleFiles.Count);
+            _subtitleFileService.Upsert(subtitleFiles);
 
             return subtitleFiles;
         }

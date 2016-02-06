@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Files;
 
 namespace NzbDrone.Core.Extras.Subtitles
 {

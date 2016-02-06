@@ -3,20 +3,21 @@ using System.Linq;
 using NzbDrone.Core.Datastore;
 using NzbDrone.Core.Messaging.Events;
 
-namespace NzbDrone.Core.Extras.ExtraFiles
+namespace NzbDrone.Core.Extras.Files
 {
-    public interface IExtraFileRepository : IBasicRepository<ExtraFile>
+    public interface IExtraFileRepository<TExtraFile> : IBasicRepository<TExtraFile> where TExtraFile : ExtraFile, new()
     {
         void DeleteForSeries(int seriesId);
         void DeleteForSeason(int seriesId, int seasonNumber);
         void DeleteForEpisodeFile(int episodeFileId);
-        List<ExtraFile> GetFilesBySeries(int seriesId);
-        List<ExtraFile> GetFilesBySeason(int seriesId, int seasonNumber);
-        List<ExtraFile> GetFilesByEpisodeFile(int episodeFileId);
-        ExtraFile FindByPath(string path);
+        List<TExtraFile> GetFilesBySeries(int seriesId);
+        List<TExtraFile> GetFilesBySeason(int seriesId, int seasonNumber);
+        List<TExtraFile> GetFilesByEpisodeFile(int episodeFileId);
+        TExtraFile FindByPath(string path);
     }
 
-    public class ExtraFileRepository : BasicRepository<ExtraFile>, IExtraFileRepository
+    public class ExtraFileRepository<TExtraFile> : BasicRepository<TExtraFile>, IExtraFileRepository<TExtraFile>
+        where TExtraFile : ExtraFile, new()
     {
         public ExtraFileRepository(IMainDatabase database, IEventAggregator eventAggregator)
             : base(database, eventAggregator)
@@ -38,22 +39,22 @@ namespace NzbDrone.Core.Extras.ExtraFiles
             Delete(c => c.EpisodeFileId == episodeFileId);
         }
 
-        public List<ExtraFile> GetFilesBySeries(int seriesId)
+        public List<TExtraFile> GetFilesBySeries(int seriesId)
         {
             return Query.Where(c => c.SeriesId == seriesId);
         }
 
-        public List<ExtraFile> GetFilesBySeason(int seriesId, int seasonNumber)
+        public List<TExtraFile> GetFilesBySeason(int seriesId, int seasonNumber)
         {
             return Query.Where(c => c.SeriesId == seriesId && c.SeasonNumber == seasonNumber);
         }
 
-        public List<ExtraFile> GetFilesByEpisodeFile(int episodeFileId)
+        public List<TExtraFile> GetFilesByEpisodeFile(int episodeFileId)
         {
             return Query.Where(c => c.EpisodeFileId == episodeFileId);
         }
 
-        public ExtraFile FindByPath(string path)
+        public TExtraFile FindByPath(string path)
         {
             return Query.Where(c => c.RelativePath == path).SingleOrDefault();
         }

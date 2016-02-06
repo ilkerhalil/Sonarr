@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using NLog;
 using NzbDrone.Common.Disk;
 using NzbDrone.Common.Extensions;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Files;
 using NzbDrone.Core.Extras.Metadata.Files;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MediaFiles;
@@ -44,16 +44,16 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.Xbmc
             }
         }
 
-        public override string GetFilenameAfterMove(Series series, EpisodeFile episodeFile, ExtraFile metadataFile)
+        public override string GetFilenameAfterMove(Series series, EpisodeFile episodeFile, MetadataFile metadataFile)
         {
             var episodeFilePath = Path.Combine(series.Path, episodeFile.RelativePath);
 
-            if (metadataFile.MetadataType == MetadataType.EpisodeImage)
+            if (metadataFile.Type == MetadataType.EpisodeImage)
             {
                 return GetEpisodeImageFilename(episodeFilePath);
             }
 
-            if (metadataFile.MetadataType == MetadataType.EpisodeMetadata)
+            if (metadataFile.Type == MetadataType.EpisodeMetadata)
             {
                 return GetEpisodeMetadataFilename(episodeFilePath);
             }
@@ -62,23 +62,22 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.Xbmc
             return Path.Combine(series.Path, metadataFile.RelativePath);
         }
 
-        public override ExtraFile FindMetadataFile(Series series, string path)
+        public override MetadataFile FindMetadataFile(Series series, string path)
         {
             var filename = Path.GetFileName(path);
 
             if (filename == null) return null;
 
-            var metadata = new ExtraFile
+            var metadata = new MetadataFile
                            {
-                               Type = ExtraType.Metadata,
                                SeriesId = series.Id,
-                               MetadataConsumer = GetType().Name,
+                               Consumer = GetType().Name,
                                RelativePath = series.Path.GetRelativePath(path)
                            };
 
             if (SeriesImagesRegex.IsMatch(filename))
             {
-                metadata.MetadataType = MetadataType.SeriesImage;
+                metadata.Type = MetadataType.SeriesImage;
                 return metadata;
             }
 
@@ -86,7 +85,7 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.Xbmc
 
             if (seasonMatch.Success)
             {
-                metadata.MetadataType = MetadataType.SeasonImage;
+                metadata.Type = MetadataType.SeasonImage;
 
                 var seasonNumberMatch = seasonMatch.Groups["season"].Value;
                 int seasonNumber;
@@ -111,13 +110,13 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.Xbmc
 
             if (EpisodeImageRegex.IsMatch(filename))
             {
-                metadata.MetadataType = MetadataType.EpisodeImage;
+                metadata.Type = MetadataType.EpisodeImage;
                 return metadata;
             }
 
             if (filename.Equals("tvshow.nfo", StringComparison.InvariantCultureIgnoreCase))
             {
-                metadata.MetadataType = MetadataType.SeriesMetadata;
+                metadata.Type = MetadataType.SeriesMetadata;
                 return metadata;
             }
 
@@ -127,7 +126,7 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.Xbmc
                 !parseResult.FullSeason &&
                 Path.GetExtension(filename) == ".nfo")
             {
-                metadata.MetadataType = MetadataType.EpisodeMetadata;
+                metadata.Type = MetadataType.EpisodeMetadata;
                 return metadata;
             }
 

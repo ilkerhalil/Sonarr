@@ -6,11 +6,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NLog;
-using NzbDrone.Common.Disk;
 using NzbDrone.Common.Extensions;
-using NzbDrone.Core.Extras.ExtraFiles;
 using NzbDrone.Core.Extras.Metadata.Files;
-using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.Tv;
 
@@ -18,16 +15,11 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.MediaBrowser
 {
     public class MediaBrowserMetadata : MetadataBase<MediaBrowserMetadataSettings>
     {
-        private readonly IMapCoversToLocal _mediaCoverService;
-        private readonly IDiskProvider _diskProvider;
         private readonly Logger _logger;
 
-        public MediaBrowserMetadata(IMapCoversToLocal mediaCoverService,
-                            IDiskProvider diskProvider,
+        public MediaBrowserMetadata(
                             Logger logger)
         {
-            _mediaCoverService = mediaCoverService;
-            _diskProvider = diskProvider;
             _logger = logger;
         }
 
@@ -39,23 +31,22 @@ namespace NzbDrone.Core.Extras.Metadata.Consumers.MediaBrowser
             }
         }
 
-        public override ExtraFile FindMetadataFile(Series series, string path)
+        public override MetadataFile FindMetadataFile(Series series, string path)
         {
             var filename = Path.GetFileName(path);
 
             if (filename == null) return null;
 
-            var metadata = new ExtraFile
+            var metadata = new MetadataFile
                            {
-                               Type = ExtraType.Metadata,
                                SeriesId = series.Id,
-                               MetadataConsumer = GetType().Name,
+                               Consumer = GetType().Name,
                                RelativePath = series.Path.GetRelativePath(path)
                            };
 
             if (filename.Equals("series.xml", StringComparison.InvariantCultureIgnoreCase))
             {
-                metadata.MetadataType = MetadataType.SeriesMetadata;
+                metadata.Type = MetadataType.SeriesMetadata;
                 return metadata;
             }
 

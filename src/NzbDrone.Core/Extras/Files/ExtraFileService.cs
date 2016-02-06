@@ -10,28 +10,30 @@ using NzbDrone.Core.Messaging.Events;
 using NzbDrone.Core.Tv;
 using NzbDrone.Core.Tv.Events;
 
-namespace NzbDrone.Core.Extras.ExtraFiles
+namespace NzbDrone.Core.Extras.Files
 {
-    public interface IExtraFileService
+    public interface IExtraFileService<TExtraFile>
+        where TExtraFile : ExtraFile, new()
     {
-        List<ExtraFile> GetFilesBySeries(int seriesId);
-        List<ExtraFile> GetFilesByEpisodeFile(int episodeFileId);
-        ExtraFile FindByPath(string path);
-        List<string> FilterExistingFiles(List<string> files, Series series);
-        void Upsert(List<ExtraFile> extraFiles);
+        List<TExtraFile> GetFilesBySeries(int seriesId);
+        List<TExtraFile> GetFilesByEpisodeFile(int episodeFileId);
+        TExtraFile FindByPath(string path);
+        void Upsert(TExtraFile extraFile);
+        void Upsert(List<TExtraFile> extraFiles);
         void Delete(int id);
     }
 
-    public class ExtraFileService : IExtraFileService,
-                                    IHandleAsync<SeriesDeletedEvent>,
-                                    IHandleAsync<EpisodeFileDeletedEvent>
+    public abstract class ExtraFileService<TExtraFile> : IExtraFileService<TExtraFile>,
+                                                         IHandleAsync<SeriesDeletedEvent>,
+                                                         IHandleAsync<EpisodeFileDeletedEvent>
+        where TExtraFile : ExtraFile, new()
     {
-        private readonly IExtraFileRepository _repository;
+        private readonly IExtraFileRepository<TExtraFile> _repository;
         private readonly ISeriesService _seriesService;
         private readonly IDiskProvider _diskProvider;
         private readonly Logger _logger;
 
-        public ExtraFileService(IExtraFileRepository repository,
+        public ExtraFileService(IExtraFileRepository<TExtraFile> repository,
                                 ISeriesService seriesService,
                                 IDiskProvider diskProvider,
                                 Logger logger)
@@ -42,34 +44,27 @@ namespace NzbDrone.Core.Extras.ExtraFiles
             _logger = logger;
         }
 
-        public List<ExtraFile> GetFilesBySeries(int seriesId)
+        public List<TExtraFile> GetFilesBySeries(int seriesId)
         {
             return _repository.GetFilesBySeries(seriesId);
         }
 
-        public List<ExtraFile> GetFilesByEpisodeFile(int episodeFileId)
+        public List<TExtraFile> GetFilesByEpisodeFile(int episodeFileId)
         {
             return _repository.GetFilesByEpisodeFile(episodeFileId);
         }
 
-        public ExtraFile FindByPath(string path)
+        public TExtraFile FindByPath(string path)
         {
             return _repository.FindByPath(path);
         }
 
-        public List<string> FilterExistingFiles(List<string> files, Series series)
+        public void Upsert(TExtraFile extraFile)
         {
-            var seriesFiles = GetFilesBySeries(series.Id).Select(f => Path.Combine(series.Path, f.RelativePath)).ToList();
-
-            if (!seriesFiles.Any())
-            {
-                return files;
-            }
-
-            return files.Except(seriesFiles, PathEqualityComparer.Instance).ToList();
+            Upsert(new List<TExtraFile> { extraFile });
         }
 
-        public void Upsert(List<ExtraFile> extraFiles)
+        public void Upsert(List<TExtraFile> extraFiles)
         {
             extraFiles.ForEach(m =>
             {

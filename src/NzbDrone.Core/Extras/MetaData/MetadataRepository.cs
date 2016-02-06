@@ -6,7 +6,6 @@ namespace NzbDrone.Core.Extras.Metadata
 {
     public interface IMetadataRepository : IProviderRepository<MetadataDefinition>
     {
-
     }
 
     public class MetadataRepository : ProviderRepository<MetadataDefinition>, IMetadataRepository

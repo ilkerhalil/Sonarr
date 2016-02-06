@@ -4,26 +4,26 @@ using System.Linq;
 using NLog;
 using NzbDrone.Common.Disk;
 using NzbDrone.Core.Configuration;
-using NzbDrone.Core.Extras.ExtraFiles;
+using NzbDrone.Core.Extras.Metadata.Files;
 using NzbDrone.Core.Tv;
 
 namespace NzbDrone.Core.Housekeeping.Housekeepers
 {
     public class DeleteBadMediaCovers : IHousekeepingTask
     {
-        private readonly IExtraFileService _extraFileService;
+        private readonly IMetadataFileService _metaFileService;
         private readonly ISeriesService _seriesService;
         private readonly IDiskProvider _diskProvider;
         private readonly IConfigService _configService;
         private readonly Logger _logger;
 
-        public DeleteBadMediaCovers(IExtraFileService extraFileService,
+        public DeleteBadMediaCovers(IMetadataFileService metaFileService,
                                     ISeriesService seriesService,
                                     IDiskProvider diskProvider,
                                     IConfigService configService,
                                     Logger logger)
         {
-            _extraFileService = extraFileService;
+            _metaFileService = metaFileService;
             _seriesService = seriesService;
             _diskProvider = diskProvider;
             _configService = configService;
@@ -38,7 +38,7 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
 
             foreach (var show in series)
             {
-                var images = _extraFileService.GetFilesBySeries(show.Id)
+                var images = _metaFileService.GetFilesBySeries(show.Id)
                     .Where(c => c.LastUpdated > new DateTime(2014, 12, 27) && c.RelativePath.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase));
 
                 foreach (var image in images)
@@ -65,7 +65,7 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
 
         private void DeleteMetadata(int id, string path)
         {
-            _extraFileService.Delete(id);
+            _metaFileService.Delete(id);
             _diskProvider.DeleteFile(path);
         }
 

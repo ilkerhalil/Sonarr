@@ -2,11 +2,11 @@
 
 namespace NzbDrone.Core.Housekeeping.Housekeepers
 {
-    public class CleanupOrphanedExtraFiles : IHousekeepingTask
+    public class CleanupOrphanedMetadataFiles : IHousekeepingTask
     {
         private readonly IMainDatabase _database;
 
-        public CleanupOrphanedExtraFiles(IMainDatabase database)
+        public CleanupOrphanedMetadataFiles(IMainDatabase database)
         {
             _database = database;
         }
@@ -22,11 +22,11 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                     SELECT ExtraFiles.Id FROM ExtraFiles
+                                     SELECT MetadataFiles.Id FROM MetadataFiles
                                      LEFT OUTER JOIN Series
-                                     ON ExtraFiles.SeriesId = Series.Id
+                                     ON MetadataFiles.SeriesId = Series.Id
                                      WHERE Series.Id IS NULL)");
         }
 
@@ -34,12 +34,12 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                     SELECT ExtraFiles.Id FROM ExtraFiles
+                                     SELECT MetadataFiles.Id FROM MetadataFiles
                                      LEFT OUTER JOIN EpisodeFiles
-                                     ON ExtraFiles.EpisodeFileId = EpisodeFiles.Id
-                                     WHERE ExtraFiles.EpisodeFileId > 0
+                                     ON MetadataFiles.EpisodeFileId = EpisodeFiles.Id
+                                     WHERE MetadataFiles.EpisodeFileId > 0
                                      AND EpisodeFiles.Id IS NULL)");
         }
 
@@ -47,10 +47,10 @@ namespace NzbDrone.Core.Housekeeping.Housekeepers
         {
             var mapper = _database.GetDataMapper();
 
-            mapper.ExecuteNonQuery(@"DELETE FROM ExtraFiles
+            mapper.ExecuteNonQuery(@"DELETE FROM MetadataFiles
                                      WHERE Id IN (
-                                     SELECT Id FROM ExtraFiles
-                                     WHERE MetadataType IN (2, 5)
+                                     SELECT Id FROM MetadataFiles
+                                     WHERE Type IN (2, 5)
                                      AND EpisodeFileId = 0)");
         }
     }
