@@ -15,10 +15,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_metadata_files_when_they_are_for_the_same_series_but_different_consumers()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.SeriesMetadata)
-                                          .With(m => m.SeriesId = 1)
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.SeriesMetadata)
+                                             .With(m => m.SeriesId = 1)
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -29,10 +29,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_metadata_files_for_different_series()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.SeriesMetadata)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.SeriesMetadata)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -43,11 +43,11 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_delete_metadata_files_when_they_are_for_the_same_series_and_consumer()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.SeriesMetadata)
-                                          .With(m => m.SeriesId = 1)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.SeriesMetadata)
+                                             .With(m => m.SeriesId = 1)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -69,10 +69,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_metadata_files_when_they_are_for_the_same_episode_but_different_consumers()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeMetadata)
-                                          .With(m => m.EpisodeFileId = 1)
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeMetadata)
+                                             .With(m => m.EpisodeFileId = 1)
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -83,10 +83,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_metadata_files_for_different_episode()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeMetadata)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeMetadata)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -97,11 +97,11 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_delete_metadata_files_when_they_are_for_the_same_episode_and_consumer()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeMetadata)
-                                          .With(m => m.EpisodeFileId = 1)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeMetadata)
+                                             .With(m => m.EpisodeFileId = 1)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -112,7 +112,7 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_metadata_files_when_there_is_only_one_for_that_episode_and_consumer()
         {
             var file = Builder<MetadataFile>.CreateNew()
-                                         .BuildNew();
+                                            .BuildNew();
 
             Db.Insert(file);
             Subject.Clean();
@@ -123,10 +123,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_image_when_they_are_for_the_same_episode_but_different_consumers()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeImage)
-                                          .With(m => m.EpisodeFileId = 1)
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeImage)
+                                             .With(m => m.EpisodeFileId = 1)
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -137,10 +137,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_image_for_different_episode()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeImage)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeImage)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -151,11 +151,11 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_delete_image_when_they_are_for_the_same_episode_and_consumer()
         {
             var files = Builder<MetadataFile>.CreateListOfSize(2)
-                                          .All()
-                                          .With(m => m.Type = MetadataType.EpisodeImage)
-                                          .With(m => m.EpisodeFileId = 1)
-                                          .With(m => m.Consumer = "XbmcMetadata")
-                                          .BuildListOfNew();
+                                             .All()
+                                             .With(m => m.Type = MetadataType.EpisodeImage)
+                                             .With(m => m.EpisodeFileId = 1)
+                                             .With(m => m.Consumer = "XbmcMetadata")
+                                             .BuildListOfNew();
 
             Db.InsertMany(files);
             Subject.Clean();
@@ -166,7 +166,7 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_not_delete_image_when_there_is_only_one_for_that_episode_and_consumer()
         {
             var file = Builder<MetadataFile>.CreateNew()
-                                         .BuildNew();
+                                            .BuildNew();
 
             Db.Insert(file);
             Subject.Clean();

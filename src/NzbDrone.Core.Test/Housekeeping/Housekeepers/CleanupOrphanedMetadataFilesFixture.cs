@@ -18,8 +18,8 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
         public void should_delete_metadata_files_that_dont_have_a_coresponding_series()
         {
             var metadataFile = Builder<MetadataFile>.CreateNew()
-                                                 .With(m => m.EpisodeFileId = null)
-                                                 .BuildNew();
+                                                    .With(m => m.EpisodeFileId = null)
+                                                    .BuildNew();
 
             Db.Insert(metadataFile);
             Subject.Clean();
@@ -35,9 +35,9 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
             Db.Insert(series);
 
             var metadataFile = Builder<MetadataFile>.CreateNew()
-                                                 .With(m => m.SeriesId = series.Id)
-                                                 .With(m => m.EpisodeFileId = null)
-                                                 .BuildNew();
+                                                    .With(m => m.SeriesId = series.Id)
+                                                    .With(m => m.EpisodeFileId = null)
+                                                    .BuildNew();
 
             Db.Insert(metadataFile);
             Subject.Clean();
@@ -53,9 +53,9 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
             Db.Insert(series);
 
             var metadataFile = Builder<MetadataFile>.CreateNew()
-                                                 .With(m => m.SeriesId = series.Id)
-                                                 .With(m => m.EpisodeFileId = 10)
-                                                 .BuildNew();
+                                                    .With(m => m.SeriesId = series.Id)
+                                                    .With(m => m.EpisodeFileId = 10)
+                                                    .BuildNew();
 
             Db.Insert(metadataFile);
             Subject.Clean();
@@ -76,9 +76,9 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
             Db.Insert(episodeFile);
 
             var metadataFile = Builder<MetadataFile>.CreateNew()
-                                                 .With(m => m.SeriesId = series.Id)
-                                                 .With(m => m.EpisodeFileId = episodeFile.Id)
-                                                 .BuildNew();
+                                                    .With(m => m.SeriesId = series.Id)
+                                                    .With(m => m.EpisodeFileId = episodeFile.Id)
+                                                    .BuildNew();
 
             Db.Insert(metadataFile);
             Subject.Clean();
@@ -113,10 +113,10 @@ namespace NzbDrone.Core.Test.Housekeeping.Housekeepers
             Db.Insert(series);
 
             var metadataFile = Builder<MetadataFile>.CreateNew()
-                                                 .With(m => m.SeriesId = series.Id)
-                                                 .With(m => m.Type = MetadataType.EpisodeImage)
-                                                 .With(m => m.EpisodeFileId = 0)
-                                                 .BuildNew();
+                                                    .With(m => m.SeriesId = series.Id)
+                                                    .With(m => m.Type = MetadataType.EpisodeImage)
+                                                    .With(m => m.EpisodeFileId = 0)
+                                                    .BuildNew();
 
             Db.Insert(metadataFile);
             Subject.Clean();
