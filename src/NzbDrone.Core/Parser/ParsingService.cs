@@ -168,7 +168,7 @@ namespace NzbDrone.Core.Parser
 
             if (parsedEpisodeInfo.IsAbsoluteNumbering)
             {
-                var sceneSeasonNumber = _sceneMappingService.GetSeasonNumber(parsedEpisodeInfo.SeriesTitle);
+                var sceneSeasonNumber = _sceneMappingService.GetSceneSeasonNumber(parsedEpisodeInfo.SeriesTitle);
 
                 foreach (var absoluteEpisodeNumber in parsedEpisodeInfo.AbsoluteEpisodeNumbers)
                 {
@@ -193,11 +193,11 @@ namespace NzbDrone.Core.Parser
                                 episode = episodes.First();
                             }
 
-                            if (episode == null)
-                            {
-                                episode = _episodeService.FindEpisode(series.Id, sceneSeasonNumber.Value,
-                                absoluteEpisodeNumber);
-                            }
+                            // This will cause mismatches where the the scene season number is used to link to the TVDB season number
+//                            if (episode == null)
+//                            {
+//                                episode = _episodeService.FindEpisode(series.Id, sceneSeasonNumber.Value, absoluteEpisodeNumber);
+//                            }
                         }
 
                         else
