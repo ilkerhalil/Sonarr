@@ -193,11 +193,10 @@ namespace NzbDrone.Core.Parser
                                 episode = episodes.First();
                             }
 
-                            // This will cause mismatches where the the scene season number is used to link to the TVDB season number
-//                            if (episode == null)
-//                            {
-//                                episode = _episodeService.FindEpisode(series.Id, sceneSeasonNumber.Value, absoluteEpisodeNumber);
-//                            }
+                            if (episode == null)
+                            {
+                                episode = _episodeService.FindEpisode(series.Id, sceneSeasonNumber.Value, absoluteEpisodeNumber);
+                            }
                         }
 
                         else

@@ -108,7 +108,9 @@ namespace NzbDrone.Core.DataAugmentation.Scene
             var mapping = FindMapping(title);
 
             if (mapping == null)
+            {
                 return null;
+            }
 
             return mapping.SceneSeasonNumber;
         }

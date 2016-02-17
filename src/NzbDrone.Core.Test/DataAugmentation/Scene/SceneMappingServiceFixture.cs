@@ -187,10 +187,9 @@ namespace NzbDrone.Core.Test.DataAugmentation.Scene
         {
             var mappings = new List<SceneMapping>
             {
-                new SceneMapping { Title = "Working!!", ParseTerm = "working", SearchTerm = "Working!!", TvdbId = 100, SeasonNumber = -1 },
-                new SceneMapping { Title = "Working!!", ParseTerm = "working", SearchTerm = "Working!!", TvdbId = 100, SeasonNumber = 1 },
-                new SceneMapping { Title = "Working`!!", ParseTerm = "working", SearchTerm = "Working`!!", TvdbId = 100, SeasonNumber = 2 },
-                new SceneMapping { Title = "Working!!!", ParseTerm = "working", SearchTerm = "Working!!!", TvdbId = 100, SeasonNumber = 3 },
+                new SceneMapping { Title = "Working!!", ParseTerm = "working", SearchTerm = "Working!!", TvdbId = 100, SceneSeasonNumber = 1 },
+                new SceneMapping { Title = "Working`!!", ParseTerm = "working", SearchTerm = "Working`!!", TvdbId = 100, SceneSeasonNumber = 2 },
+                new SceneMapping { Title = "Working!!!", ParseTerm = "working", SearchTerm = "Working!!!", TvdbId = 100, SceneSeasonNumber = 3 },
             };
 
             Mocker.GetMock<ISceneMappingRepository>().Setup(c => c.All()).Returns(mappings);
